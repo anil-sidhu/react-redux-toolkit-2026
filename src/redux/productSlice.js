@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import reducer from "./slice";
 const API_URL = "https://dummyjson.com/products";
 
 
 export const fetchProducts = createAsyncThunk('products', async () => {
-    
+
     const resp = await fetch(API_URL);
     const jsonResp = await resp.json();
     // console.log("action",jsonResp);
@@ -18,18 +17,33 @@ export const fetchProducts = createAsyncThunk('products', async () => {
 
 
 const initialState = {
-    products: []
+    products: [],
+    cartItems: []
 }
 
 const productSlice = createSlice({
     name: 'productSlice',
     initialState,
-    extraReducers:(builder)=>{
-        builder.addCase(fetchProducts.fulfilled,(state,action)=>{
-            state.products=action.payload
+    reducers: {
+        addCartItem: (state, action) => {
+            // console.log(action);
+            if (action.payload) {
+                state.cartItems.push(action.payload)
+                // console.log(action.payload);
+
+            }
+        },
+    },
+
+    extraReducers: (builder) => {
+        builder.addCase(fetchProducts.fulfilled, (state, action) => {
+            state.products = action.payload
 
         })
-    }
+    },
+
 })
+
+export const { addCartItem } = productSlice.actions
 
 export default productSlice.reducer
