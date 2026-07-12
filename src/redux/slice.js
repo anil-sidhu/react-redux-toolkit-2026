@@ -5,7 +5,7 @@ const counterSlice = createSlice({
     name: 'counter',
     initialState: {
         value: 0,
-        user:{}
+        user:JSON.parse(localStorage.getItem('user'))
     },
     reducers: {
         increment: (state) => {
@@ -22,6 +22,7 @@ const counterSlice = createSlice({
             console.log(action);
             if (action.payload) {
                 state.user = action.payload
+                localStorage.setItem("user",JSON.stringify(action.payload))
             }
 
             //  console.log(state.value);
