@@ -19,3 +19,9 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'azure-connection'
+    appName: 'react-test-app'
+    package: '$(System.DefaultWorkingDirectory)/dist'
